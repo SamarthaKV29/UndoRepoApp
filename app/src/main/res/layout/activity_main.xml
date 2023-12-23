@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/undoStack"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@color/design_default_color_secondary"
+                android:minHeight="100dp"
+                android:orientation="vertical">
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/undoStack"
+                android:layout_centerHorizontal="true"
+                android:text="@string/undo" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/redoStack"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@color/design_default_color_primary"
+                android:minHeight="100dp"
+                android:orientation="vertical">
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/redoStack"
+                android:layout_centerHorizontal="true"
+                android:text="@string/redo" />
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <EditText
+        android:id="@+id/userTextInput"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="@string/please_enter_some_text"
+        android:importantForAutofill="no"
+        android:inputType="text" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/undoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/design_default_color_error"
+            android:onClick="onUndoClick"
+            android:text="@string/undo" />
+
+        <Button
+            android:id="@+id/redoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/design_default_color_error"
+            android:onClick="onRedoClick"
+            android:text="@string/redo" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
