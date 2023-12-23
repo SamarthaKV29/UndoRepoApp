@@ -67,7 +67,10 @@ public class PersonQueueActivity extends Activity {
 
     public void onRemoveClick(View view) {
         synchronized (personQueue) {
-            if (personQueue.size() > 0) personQueue.remove();
+            if (personQueue.size() > 0) {
+                personQueue.remove();
+                if (personQueue.isEmpty()) persons = 1;
+            }
             updatePersonQueueView();
         }
     }
