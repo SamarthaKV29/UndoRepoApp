@@ -30,16 +30,13 @@ public class PersonQueueActivity extends Activity {
         personQueueView = findViewById(R.id.personQueue);
         automateToggle = findViewById(R.id.automateToggle);
 
-        addPersonThread = new Thread(automatedAddRunnable);
-        removePersonThread = new Thread(automatedRemoveRunnable);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
         automateToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
+                addPersonThread = new Thread(automatedAddRunnable);
                 addPersonThread.start();
+
+                removePersonThread = new Thread(automatedRemoveRunnable);
                 removePersonThread.start();
             }
         });
@@ -86,8 +83,7 @@ public class PersonQueueActivity extends Activity {
     Runnable removeRunnable = () -> onRemoveClick(null);
 
     Runnable automatedAddRunnable = () -> {
-        boolean isAutomating = true;
-        while (isAutomating) {
+        while (isAutomating()) {
             int d = (int) (Math.random() * MIN_DELAY) + MIN_DELAY;
             runOnUiThread(addRunnable);
             try {
@@ -95,18 +91,11 @@ public class PersonQueueActivity extends Activity {
             } catch (InterruptedException e) {
                 Timber.e(e, "Thread interrupted");
             }
-            isAutomating = isAutomating();
-        }
-        try {
-            addPersonThread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     };
 
     Runnable automatedRemoveRunnable = () -> {
-        boolean isAutomating = true;
-        while (isAutomating) {
+        while (isAutomating()) {
             int d = (int) (Math.random() * MIN_DELAY * 2) + MIN_DELAY;
             runOnUiThread(removeRunnable);
             try {
@@ -114,16 +103,12 @@ public class PersonQueueActivity extends Activity {
             } catch (InterruptedException e) {
                 Timber.e(e, "Thread interrupted");
             }
-            isAutomating = isAutomating();
-        }
-        try {
-            removePersonThread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     };
 
     private boolean isAutomating() {
-        return automateToggle != null && automateToggle.isChecked();
+        boolean automating = automateToggle != null && automateToggle.isChecked();
+        Timber.d("Automating %s", automating);
+        return automating;
     }
 }
