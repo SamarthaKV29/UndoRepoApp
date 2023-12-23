@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/personQueue"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@color/design_default_color_secondary"
+            android:minHeight="100dp"
+            android:orientation="vertical">
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/personQueue"
+            android:layout_centerHorizontal="true"
+            android:text="@string/person_queue" />
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/addToQueueBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/material_dynamic_primary50"
+            android:onClick="onAddClick"
+            android:text="@string/add" />
+
+        <Button
+            android:id="@+id/removeFromQueueBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/material_dynamic_secondary50"
+            android:onClick="onRemoveClick"
+            android:text="@string/remove" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ToggleButton
+        android:id="@+id/automateToggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="@string/automate"
+        android:textOn="@string/stop_automate" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

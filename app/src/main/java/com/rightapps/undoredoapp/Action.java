@@ -35,16 +35,17 @@ public class Action {
     @NonNull
     @Override
     public String toString() {
-        String actionType = "";
+        return String.format("type: %s, text: %s", getActionType(type), text);
+    }
+
+    private String getActionType(ActionType type) {
         switch (type) {
             case KEYBOARD_ACTION:
-                actionType = "Keyboard";
-                break;
+                return "Keyboard";
             case MOUSE_ACTION:
-                actionType = "Mouse";
-                break;
+                return "Mouse";
         }
-        return String.format("type: %s, text: %s", actionType, text);
+        return "";
     }
 }
 

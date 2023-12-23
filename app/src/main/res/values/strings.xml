@@ -3,4 +3,11 @@
     <string name="please_enter_some_text">Please enter some text</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
+    <string name="person_queue">Person Queue</string>
+    <string name="remove">Remove</string>
+    <string name="add">Add</string>
+    <string name="undo_redo_using_stack_btn">Undo Redo using Stack</string>
+    <string name="person_queue_btn">Person Queue</string>
+    <string name="automate">Automate</string>
+    <string name="stop_automate">Stop Automate</string>
 </resources>
