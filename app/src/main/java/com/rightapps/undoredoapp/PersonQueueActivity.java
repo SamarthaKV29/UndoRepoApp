@@ -2,8 +2,6 @@ package com.rightapps.undoredoapp;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -17,11 +15,12 @@ import timber.log.Timber;
 
 public class PersonQueueActivity extends Activity {
 
-    PriorityQueue<Person> personQueue = new PriorityQueue<>();
+    private static final int MIN_DELAY = 1000;
+    final PriorityQueue<Person> personQueue = new PriorityQueue<>();
     LinearLayoutCompat personQueueView = null;
     private int persons = 1;
-    private Handler addHandler;
-    private Handler removeHandler;
+    private Thread addPersonThread;
+    private Thread removePersonThread;
     private ToggleButton automateToggle;
 
     @Override
@@ -31,13 +30,8 @@ public class PersonQueueActivity extends Activity {
         personQueueView = findViewById(R.id.personQueue);
         automateToggle = findViewById(R.id.automateToggle);
 
-        HandlerThread addHandlerThread = new HandlerThread("AddHandlerThread");
-        HandlerThread removeHandlerThread = new HandlerThread("RemoveHandlerThread");
-        addHandlerThread.start();
-        removeHandlerThread.start();
-
-        addHandler = new Handler(addHandlerThread.getLooper());
-        removeHandler = new Handler(removeHandlerThread.getLooper());
+        addPersonThread = new Thread(automatedAddRunnable);
+        removePersonThread = new Thread(automatedRemoveRunnable);
     }
 
     @Override
@@ -45,8 +39,8 @@ public class PersonQueueActivity extends Activity {
         super.onStart();
         automateToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                addHandler.post(automatedAddRunnable);
-                removeHandler.post(automatedRemoveRunnable);
+                addPersonThread.start();
+                removePersonThread.start();
             }
         });
     }
@@ -62,18 +56,27 @@ public class PersonQueueActivity extends Activity {
     }
 
     public void onAddClick(View view) {
-        if (personQueue.size() >= 5) {
-            personQueue.remove();
+        synchronized (personQueue) {
+            if (personQueue.size() >= 5) {
+                personQueue.remove();
+            }
+            personQueue.add(new Person(persons++));
+            updatePersonQueueView();
         }
-        personQueue.add(new Person(persons++));
-        updatePersonQueueView();
     }
 
     public void onRemoveClick(View view) {
-        if (personQueue.size() > 0) personQueue.remove();
-        updatePersonQueueView();
+        synchronized (personQueue) {
+            if (personQueue.size() > 0) personQueue.remove();
+            updatePersonQueueView();
+        }
     }
 
+    @Override
+    protected void onDestroy() {
+        if (automateToggle != null) automateToggle.setChecked(false);
+        super.onDestroy();
+    }
 
     Runnable addRunnable = () -> onAddClick(null);
 
@@ -82,7 +85,7 @@ public class PersonQueueActivity extends Activity {
     Runnable automatedAddRunnable = () -> {
         boolean isAutomating = true;
         while (isAutomating) {
-            int d = (int) (Math.random() * 500) + 300;
+            int d = (int) (Math.random() * MIN_DELAY) + MIN_DELAY;
             runOnUiThread(addRunnable);
             try {
                 Thread.sleep(d);
@@ -91,12 +94,17 @@ public class PersonQueueActivity extends Activity {
             }
             isAutomating = isAutomating();
         }
+        try {
+            addPersonThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     };
 
     Runnable automatedRemoveRunnable = () -> {
         boolean isAutomating = true;
         while (isAutomating) {
-            int d = (int) (Math.random() * 2000) + 600;
+            int d = (int) (Math.random() * MIN_DELAY * 2) + MIN_DELAY;
             runOnUiThread(removeRunnable);
             try {
                 Thread.sleep(d);
@@ -104,6 +112,11 @@ public class PersonQueueActivity extends Activity {
                 Timber.e(e, "Thread interrupted");
             }
             isAutomating = isAutomating();
+        }
+        try {
+            removePersonThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     };
 

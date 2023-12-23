@@ -6,14 +6,14 @@
     android:orientation="vertical"
     android:padding="20dp">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/undoRedo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onUndoRedoClick"
         android:text="@string/undo_redo_using_stack_btn" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/queueExample"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

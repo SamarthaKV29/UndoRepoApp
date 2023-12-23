@@ -15,9 +15,10 @@
             android:id="@+id/personQueue"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:background="@color/design_default_color_secondary"
             android:minHeight="100dp"
-            android:orientation="vertical">
+            android:background="@android:color/holo_blue_bright"
+            android:orientation="vertical"
+            android:padding="5dp">
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -33,23 +34,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-        <Button
-            android:id="@+id/addToQueueBtn"
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:backgroundTint="@color/material_dynamic_primary50"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/holo_green_light"
             android:onClick="onAddClick"
             android:text="@string/add" />
 
-        <Button
-            android:id="@+id/removeFromQueueBtn"
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:backgroundTint="@color/material_dynamic_secondary50"
+            android:backgroundTint="@android:color/holo_orange_light"
+            android:layout_weight="1"
             android:onClick="onRemoveClick"
             android:text="@string/remove" />
 
@@ -57,8 +59,10 @@
 
     <ToggleButton
         android:id="@+id/automateToggle"
-        android:layout_width="match_parent"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:textOff="@string/automate"
         android:textOn="@string/stop_automate" />
 
